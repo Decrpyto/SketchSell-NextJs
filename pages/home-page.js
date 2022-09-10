@@ -1,14 +1,12 @@
+import React from "react";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import Body from "../components/Body";
-import OverBoard from "../components/OverBoard";
-import styles from "../styles/Home.module.css";
-import { supabase } from "../Utils/SupabaseClient";
+import SideBar from "../components/sideBar";
+import RightBar from "../components/rightBar";
+import MainPage from "../components/main-page";
 
-export default function Home() {
+function HomePage() {
     return (
-        <div className="h-screen bg-black">
+        <div className="h-screen flex justify-between flex-row">
             <Head>
                 <title>SketchSell</title>
                 <link
@@ -16,16 +14,12 @@ export default function Home() {
                     rel="stylesheet"
                 ></link>
             </Head>
-
-            <main>
-                {/* OverBoarding Page */}
-
-                <OverBoard />
-
-                {/* Body */}
-
-                <Body />
-            </main>
+            {/* SIDEBAR */}
+            <SideBar />
+            <MainPage />
+            <RightBar />
         </div>
     );
 }
+
+export default HomePage;
