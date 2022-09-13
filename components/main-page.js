@@ -49,7 +49,11 @@ function MainPage() {
 
                 <div className="grid grid-cols-3 mt-20 px-5 ">
                     {artsPost.map((item, index) => (
-                        <Card name={item.name} priced_at={item.priced_at} />
+                        <Card
+                            key={index}
+                            name={item.name}
+                            priced_at={item.priced_at}
+                        />
                     ))}
                 </div>
             </div>

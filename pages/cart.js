@@ -1,10 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import { CreditCardIcon } from "@heroicons/react/24/outline";
 import List from "../components/list";
 import logo from "../assets/p-1.jpg";
+import { supabase } from "../Utils/SupabaseClient";
+function Cart({ userId }) {
+    const [CartContents, setCartContents] = useState([]);
 
-function Cart() {
+    const [total, setTotal] = useState(0);
+
+    async function getUserCartContents() {
+        const { data, error } = await supabase
+            .from("cart")
+            .select("art_url,dimensions,priced_at")
+            .eq("owner_id", userId);
+
+        if (data) {
+            setCartContents(data);
+        }
+
+        const sum = CartContents.priced_at;
+
+        calculateTotal(sum);
+
+        function calculateTotal(item) {
+            sumAmount += item;
+
+            setTotal(sumAmount);
+        }
+
+        if (error) {
+            alert(error.message || "something went wrong");
+        }
+    }
+
     return (
         <div className="bg-black h-screen w-screen p-10 ">
             <Head>
@@ -89,7 +118,7 @@ function Cart() {
                         </div>
                         <div className="mt-[44px]  bg-black border-2 border-gray-500/10 hover:bg-white  rounded-xl">
                             <button class="btn gap-2 w-28 bg-black">
-                                PAY $177.00
+                                PAY ${total}
                             </button>
                         </div>
                     </div>
@@ -104,37 +133,48 @@ function Cart() {
                                 <div class="flex flex-col w-full border-opacity-50">
                                     <div className="divider"></div>
                                 </div>
-                                <div className="flex flex-row space-x-5">
-                                    <img
-                                        src={
-                                            "https://placeimg.com/200/280/arch"
-                                        }
-                                        className="rounded-xl"
-                                        height={60}
-                                        width={60}
-                                    />
-                                    <div className="flex flex-col">
-                                        <h1 className="font-montserrat font-bold text-md text-white">
-                                            Fantasy World
+                                {CartContents.length === 0 ? (
+                                    <div className="flex justify-center items-center h-[700px]">
+                                        <h1 className="font-montserrat font-semibold text-gray-300 text-lg">
+                                            Your cart is empty.
                                         </h1>
-                                        <h4 className="font-montserrat font-semibold text-sm">
-                                            Dimensions :{" "}
-                                            <span className="font-montserrat font-semibold text-sm text-white">
-                                                1920 x 1080
-                                            </span>
-                                        </h4>
-                                        <h6 className="font-montserrat font-semibold text-sm mt-3">
-                                            $117.00
-                                        </h6>
                                     </div>
-                                </div>
+                                ) : (
+                                    CartContents.map((item, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex flex-row space-x-5"
+                                        >
+                                            <img
+                                                src={item.arts_url}
+                                                className="rounded-xl"
+                                                height={60}
+                                                width={60}
+                                            />
+                                            <div className="flex flex-col">
+                                                <h1 className="font-montserrat font-bold text-base text-white">
+                                                    {item.name}
+                                                </h1>
+                                                <h4 className="font-montserrat font-semibold text-sm">
+                                                    Dimensions :{" "}
+                                                    <span className="font-montserrat font-semibold text-sm text-white">
+                                                        {item.dimensions}
+                                                    </span>
+                                                </h4>
+                                                <h6 className="font-montserrat font-semibold text-sm mt-3">
+                                                    {item.priced_at}
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                             <div className="bg-gray-600/5 h-20 rounded-xl mt-5 mb-5 flex flex-row space-x-2 p-5">
                                 <h1 className="font-montserrat font-semibold text-xl text-white ">
                                     TOTAL :
                                 </h1>
                                 <span className="font-montserrat font-bold text-white text-xl ">
-                                    $117.00
+                                    ${total}
                                 </span>
                             </div>
                         </div>

@@ -9,6 +9,8 @@ function upload({ userId }) {
     const [ArtsFileName, setArtsFileName] = useState(null);
     const id = useId(userId);
 
+    const [TagName, setTagName] = useState([""]);
+
     const [Price, setPrice] = useState(0);
     const [Name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -164,8 +166,21 @@ function upload({ userId }) {
                                 placeholder="Your message"
                             ></textarea>
                         </div>
+                        <div className="form-control w-full  max-w-md mt-5">
+                            <label className="label">
+                                <span className="label-text font-montserrat font-semibold">
+                                    Enter Tags
+                                </span>
+                            </label>
+                            <input
+                                onClick={(e) => setTagName(e.target.value)}
+                                type="text"
+                                placeholder="Type here"
+                                className="input input-bordered w-full max-w-md bg-gray-600/5 font-medium font-montserrat"
+                            />
+                        </div>
 
-                        <div className="form-control w-full  max-w-md mt-10">
+                        <div className="form-control w-full  max-w-md mt-5">
                             <label className="label">
                                 <span className="label-text font-montserrat font-semibold">
                                     Enter Art Name
