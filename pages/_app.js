@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "../Utils/SupabaseClient";
 import { useRouter } from "next/router";
+
+
+
+
 function MyApp({ Component, pageProps }) {
     const [AuthenticatedState, setAuthenticatedState] =
         useState("not-authenticated");

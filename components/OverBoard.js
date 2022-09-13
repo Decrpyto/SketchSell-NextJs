@@ -1,9 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import Logo from "../assets/SketchSell-1.png";
+import { supabase } from "../Utils/SupabaseClient";
 
 function OverBoard() {
+    const [Authenticated, setAuthenticated] = useState("");
+
+    const router = useRouter();
+
+    const runCheckOperation = () => {
+        const authorized = supabase.auth.user();
+
+        setAuthenticated(authorized.aud);
+
+        if (Authenticated === null) {
+            router.push("/login");
+        } else {
+            router.push("/home-page");
+        }
+    };
+
+    async function fetchOperation() {}
+
     return (
         <header
             className="flex flex-row shadow-md sticky top-0 z-50
@@ -56,14 +76,17 @@ function OverBoard() {
                 >
                     <span>+ Submit</span>
                 </button>
-                <Link href={"/login"}>
-                    <button
-                        className="font-itim font-bold text-md text-black hover:animate-pulse bg-white
+
+                <button
+                    onClick={(e) => {
+                        e.preventDefault();
+                        runCheckOperation();
+                    }}
+                    className="font-itim font-bold text-md text-black hover:animate-pulse bg-white
                 px-5 py-2 rounded-md"
-                    >
-                        <span>Sign in</span>
-                    </button>
-                </Link>
+                >
+                    <span>Sign in</span>
+                </button>
             </div>
         </header>
     );

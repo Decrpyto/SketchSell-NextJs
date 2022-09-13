@@ -12,7 +12,9 @@ import {
     PencilSquareIcon,
     UserCircleIcon,
     Bars3BottomRightIcon,
+    ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 function SideBar() {
     const [submenuOpen, setSubmenuOpen] = useState(false);
@@ -20,30 +22,24 @@ function SideBar() {
         {
             title: "Home",
             icon: <HomeIcon />,
+            link: "/home-page",
         },
-        {
-            title: "Trending",
-            icon: <FireIcon />,
-        },
-        {
-            title: "Community",
-            icon: <UserGroupIcon />,
-        },
+
         {
             title: "Upload",
             icon: <ArrowUpOnSquareStackIcon />,
+            link: "/upload",
         },
         {
-            title: "Projects",
+            title: "Cart",
+            link: "/cart",
+            icon: <ShoppingCartIcon />,
         },
 
         {
             title: "Account",
             icon: <UserIcon />,
-        },
-        {
-            title: "Logout",
-            icon: <ArrowRightOnRectangleIcon />,
+            link: "/profile",
         },
     ];
     return (
@@ -77,22 +73,31 @@ function SideBar() {
                                 gap-x-4 hover:animate-pulse cursor-pointer p-2 rounded-md mt-10
                                 hover:bg-white hover:text-black`}
                                 >
-                                    <span className="h-8 w-8 text-2xl block float-left">
-                                        {menu.icon ? (
-                                            menu.icon
-                                        ) : (
-                                            <ArrowDownOnSquareStackIcon />
-                                        )}
-                                    </span>
-                                    <h4>{menu.title}</h4>
-                                    {menu.submenu && (
-                                        <ChevronDoubleDownIcon
-                                            className="h-4 w-4"
-                                            onClick={() =>
-                                                setSubmenuOpen(!submenuOpen)
-                                            }
-                                        />
-                                    )}
+                                    <Link href={menu.link} key={index}>
+                                        <div
+                                            className="flex flex-row space-x-2 items-center"
+                                            key={index}
+                                        >
+                                            <span className="h-8 w-8 text-2xl block float-left">
+                                                {menu.icon ? (
+                                                    menu.icon
+                                                ) : (
+                                                    <ArrowDownOnSquareStackIcon />
+                                                )}
+                                            </span>
+                                            <h4>{menu.title}</h4>
+                                            {menu.submenu && (
+                                                <ChevronDoubleDownIcon
+                                                    className="h-4 w-4"
+                                                    onClick={() =>
+                                                        setSubmenuOpen(
+                                                            !submenuOpen
+                                                        )
+                                                    }
+                                                />
+                                            )}
+                                        </div>
+                                    </Link>
                                 </li>
                             </>
                         ))}

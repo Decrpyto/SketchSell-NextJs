@@ -3,6 +3,7 @@ import { supabase } from "../Utils/SupabaseClient";
 import logo from "../assets/p-1.jpg";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Card from "./Card";
 
 function MainPage() {
     const [loading, setLoading] = useState(false);
@@ -13,7 +14,7 @@ function MainPage() {
         try {
             const { data, error } = await supabase
                 .from("arts")
-                .select("id,picture_url,picture_title, priced_at")
+                .select("id,arts_url,name, priced_at, uploaded_by")
                 .eq("is_purchased", false)
                 .limit(12);
 
@@ -28,6 +29,11 @@ function MainPage() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        getArts();
+    }, []);
+
     return (
         <div className="flex-grow flex bg-black justify-center">
             <div>
@@ -42,68 +48,9 @@ function MainPage() {
                 </div>
 
                 <div className="grid grid-cols-3 mt-20 px-5 ">
-                    <div className="h-[350px] w-[350px] bg-gray-800/20 rounded-xl p-2 m-5 flex flex-col">
-                        <Image
-                            src={logo}
-                            className="h-[300px] object-contain w-[320] rounded-xl"
-                        />
-                        <div>
-                            <div className="mt-5 ml-2 font-montserrat font-semibold text-white text-xl">
-                                <h1>Fantasy World</h1>
-                            </div>
-                        </div>
-
-                        <div
-                            className="border border-white h-14 rounded-xl text-white font-montserrat
-                            font-extrabold bg-black hover:text-black hover:bg-white hover:animate-pulse
-                            justify-center items-center flex mt-5
-                        "
-                            onClick={(e) => {}}
-                        >
-                            <span>ADD TO CART</span>
-                        </div>
-                    </div>
-                    <div className="h-[350px] w-[350px] bg-gray-800/20 rounded-xl p-2 m-5 flex flex-col">
-                        <Image
-                            src={logo}
-                            className="h-[300px] object-contain w-[320] rounded-xl"
-                        />
-                        <div>
-                            <div className="mt-5 ml-2 font-montserrat font-semibold text-white text-xl">
-                                <h1>Fantasy World</h1>
-                            </div>
-                        </div>
-
-                        <div
-                            className="border border-white h-14 rounded-xl text-white font-montserrat
-                            font-extrabold bg-black hover:text-black hover:bg-white hover:animate-pulse
-                            justify-center items-center flex mt-5
-                        "
-                            onClick={(e) => router.push("/profile")}
-                        >
-                            <span>ADD TO CART</span>
-                        </div>
-                    </div>
-                    <div className="h-[350px] w-[350px] bg-gray-800/20 rounded-xl p-2 m-5 flex flex-col">
-                        <Image
-                            src={logo}
-                            className="h-[300px] object-contain w-[320] rounded-xl"
-                        />
-                        <div>
-                            <div className="mt-5 ml-2 font-montserrat font-semibold text-white text-xl">
-                                <h1>Fantasy World</h1>
-                            </div>
-                        </div>
-
-                        <div
-                            className="border border-white h-14 rounded-xl text-white font-montserrat
-                            font-extrabold bg-black hover:text-black hover:bg-white hover:animate-pulse
-                            justify-center items-center flex mt-5 cursor-pointer
-                        "
-                        >
-                            <span>ADD TO CART</span>
-                        </div>
-                    </div>
+                    {artsPost.map((item, index) => (
+                        <Card name={item.name} priced_at={item.priced_at} />
+                    ))}
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ import RightBar from "../components/rightBar";
 import MainPage from "../components/main-page";
 
 function HomePage() {
+    
     return (
         <div className="h-screen flex justify-between flex-row">
             <Head>
